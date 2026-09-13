@@ -13,6 +13,8 @@ import Welcome from "./pages/Welcome";
 import Upload from "./pages/Upload";
 import Processing from "./pages/Processing";
 import Result from "./pages/Result";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 
 function AppContent() {
@@ -98,7 +100,10 @@ function AppContent() {
 
 
   return (
-    <Routes>
+    <div className="app">
+      <Navbar />
+
+      <Routes>
 
       <Route
         path="/"
@@ -167,7 +172,10 @@ function AppContent() {
         element={<Navigate to="/" replace />}
       />
 
-    </Routes>
+      </Routes>
+
+      <Footer />
+    </div>
   );
 }
 
