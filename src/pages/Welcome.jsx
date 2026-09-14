@@ -1,4 +1,3 @@
-
 import {
   ArrowRight,
   BrainCircuit,
@@ -9,7 +8,12 @@ import {
   ShieldCheck,
   Sparkles,
   Activity,
+  Gauge,
+  Layers,
+  ScanEye,
+  Sparkle,
 } from "lucide-react";
+import eyeCloseupImage from "../assets/media/eye-closeup.jpg";
 
 
 const Welcome = ({ onStart }) => {
@@ -29,6 +33,11 @@ const Welcome = ({ onStart }) => {
       title: "Lesion Detection",
       text: "Analyzes retinal lesion evidence and structural findings.",
     },
+    {
+      icon: ShieldCheck,
+      title: "Quality Gatekeeping",
+      text: "Flags poor-quality images before they reach the model.",
+    },
   ];
 
 
@@ -42,8 +51,34 @@ const Welcome = ({ onStart }) => {
   ];
 
 
+  const stats = [
+    {
+      icon: Layers,
+      value: "8",
+      label: "Stage AI Pipeline",
+    },
+    {
+      icon: ScanEye,
+      value: "4",
+      label: "Retinal Lesion Types Tracked",
+    },
+    {
+      icon: Gauge,
+      value: "5",
+      label: "Image Quality Checks",
+    },
+    {
+      icon: Sparkle,
+      value: "100%",
+      label: "Explainable Output",
+    },
+  ];
+
+
   return (
-    <main className="welcome-page page-transition ai-grid">
+    <main className="welcome-page page-transition">
+
+      <div className="ai-grid-bg" aria-hidden="true" />
 
       <div className="welcome-container">
 
@@ -145,6 +180,14 @@ const Welcome = ({ onStart }) => {
 
               <div className="hero-fundus-circle">
 
+                <img
+                  className="hero-fundus-video"
+                  src={eyeCloseupImage}
+                  alt="Close-up of a human eye"
+                />
+
+                <div className="hero-fundus-circle-overlay" />
+
                 <div className="analysis-marker marker-one" />
                 <div className="analysis-marker marker-two" />
                 <div className="analysis-marker marker-three" />
@@ -191,6 +234,39 @@ const Welcome = ({ onStart }) => {
         </section>
 
       </div>
+
+
+      <section className="welcome-stats-section">
+
+        <div className="welcome-stats-grid">
+
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+
+            return (
+              <div className="welcome-stat" key={stat.label}>
+
+                <div className="welcome-stat-icon">
+                  <Icon size={18} />
+                </div>
+
+                <div>
+                  <div className="welcome-stat-value">
+                    {stat.value}
+                  </div>
+
+                  <div className="welcome-stat-label">
+                    {stat.label}
+                  </div>
+                </div>
+
+              </div>
+            );
+          })}
+
+        </div>
+
+      </section>
 
 
       <section
@@ -240,7 +316,8 @@ const Welcome = ({ onStart }) => {
                 </div>
 
 
-                {index < workflow.length - 1 && (
+                {index < workflow.length - 1 &&
+                  (index + 1) % 3 !== 0 && (
                   <div className="welcome-workflow-arrow">
                     <ArrowRight size={15} />
                   </div>
@@ -300,10 +377,38 @@ const Welcome = ({ onStart }) => {
 
       </section>
 
+
+      <section className="welcome-cta-section">
+
+        <div className="welcome-cta-card">
+
+          <div className="welcome-cta-text">
+            <h2>Ready to run your first screening?</h2>
+
+            <p>
+              Upload a fundus photograph and get a structured,
+              explainable AI screening result in moments.
+            </p>
+          </div>
+
+
+          <button
+            type="button"
+            className="btn btn-primary btn-lg"
+            onClick={onStart}
+          >
+            <Sparkles size={18} />
+            Start Screening
+            <ArrowRight size={18} />
+          </button>
+
+        </div>
+
+      </section>
+
     </main>
   );
 };
 
 
 export default Welcome;
-

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   HeartPulse,
@@ -9,14 +9,35 @@ import {
   Upload,
   FileCheck2,
   House,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") {
+      return "light";
+    }
+
+    return window.localStorage.getItem("dr-screening-theme") || "light";
+  });
+
   const location = useLocation();
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    window.localStorage.setItem("dr-screening-theme", theme);
+  }, [theme]);
+
+
+  const toggleTheme = () => {
+    setTheme((previous) => (previous === "dark" ? "light" : "dark"));
+  };
 
 
   const closeMobileMenu = () => {
@@ -102,23 +123,45 @@ const Navbar = () => {
           </nav>
 
 
-          <button
-            type="button"
-            className="mobile-menu-button"
-            onClick={() => setMobileOpen((previous) => !previous)}
-            aria-label={
-              mobileOpen
-                ? "Close navigation menu"
-                : "Open navigation menu"
-            }
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? (
-              <X size={20} />
-            ) : (
-              <Menu size={20} />
-            )}
-          </button>
+          <div className="navbar-actions">
+
+            <button
+              type="button"
+              className="theme-toggle-button"
+              onClick={toggleTheme}
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+            >
+              {theme === "dark" ? (
+                <Sun size={17} />
+              ) : (
+                <Moon size={17} />
+              )}
+            </button>
+
+
+            <button
+              type="button"
+              className="mobile-menu-button"
+              onClick={() => setMobileOpen((previous) => !previous)}
+              aria-label={
+                mobileOpen
+                  ? "Close navigation menu"
+                  : "Open navigation menu"
+              }
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? (
+                <X size={20} />
+              ) : (
+                <Menu size={20} />
+              )}
+            </button>
+
+          </div>
 
         </div>
 
