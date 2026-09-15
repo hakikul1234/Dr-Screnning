@@ -5,9 +5,7 @@ import {
   BrainCircuit,
   CheckCircle2,
   Eye,
-  FileImage,
   Info,
-  ShieldAlert,
   Sparkles,
 } from "lucide-react";
 

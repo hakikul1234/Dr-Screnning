@@ -13,7 +13,9 @@ import Welcome from "./pages/Welcome";
 import Upload from "./pages/Upload";
 import Processing from "./pages/Processing";
 import Result from "./pages/Result";
+import Documentation from "./pages/Documentation";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
 
 
@@ -101,6 +103,7 @@ function AppContent() {
 
   return (
     <div className="app">
+      <ScrollToTop />
       <Navbar />
 
       <Routes>
@@ -164,6 +167,12 @@ function AppContent() {
             <Navigate to="/upload" replace />
           )
         }
+      />
+
+
+      <Route
+        path="/docs"
+        element={<Documentation />}
       />
 
 

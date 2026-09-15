@@ -5,10 +5,14 @@ import {
   Globe,
   MessageCircle,
   Mail,
-  Eye,
   Upload,
   FileCheck2,
   Lock,
+  BookOpen,
+  Gauge,
+  Sparkles,
+  Microscope,
+  BrainCircuit,
 } from "lucide-react";
 
 
@@ -25,7 +29,37 @@ const Footer = () => {
             <div>
               <div className="footer-brand">
                 <span className="footer-brand-logo">
-                  <HeartPulse size={20} strokeWidth={2.2} />
+                  <svg
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    width="21"
+                    height="21"
+                  >
+                    <circle
+                      cx="16"
+                      cy="16"
+                      r="13"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      opacity="0.45"
+                    />
+                    <circle
+                      cx="16"
+                      cy="16"
+                      r="7.5"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                    />
+                    <circle cx="16" cy="16" r="3" fill="currentColor" />
+                    <path
+                      d="M16 3v3.5M16 25.5V29M3 16h3.5M25.5 16H29"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </span>
                 <span>DR Screening AI</span>
               </div>
@@ -98,6 +132,11 @@ const Footer = () => {
                   <FileCheck2 size={14} />
                   Results
                 </Link>
+
+                <Link className="footer-link" to="/docs">
+                  <BookOpen size={14} />
+                  Documentation
+                </Link>
               </div>
             </div>
 
@@ -106,20 +145,25 @@ const Footer = () => {
               <div className="footer-col-title">Screening Pipeline</div>
 
               <div className="footer-links">
-                <span className="footer-link">
-                  <Eye size={14} />
-                  Image Quality Check
-                </span>
+                <Link className="footer-link" to="/docs">
+                  <Gauge size={14} />
+                  Image Quality Assessment
+                </Link>
 
-                <span className="footer-link">
-                  <Eye size={14} />
-                  Lesion Analysis
-                </span>
+                <Link className="footer-link" to="/docs">
+                  <Sparkles size={14} />
+                  Image Enhancement
+                </Link>
 
-                <span className="footer-link">
-                  <Eye size={14} />
-                  Explainable AI Output
-                </span>
+                <Link className="footer-link" to="/docs">
+                  <Microscope size={14} />
+                  Lesion Detection
+                </Link>
+
+                <Link className="footer-link" to="/docs">
+                  <BrainCircuit size={14} />
+                  DR Severity Grading
+                </Link>
               </div>
             </div>
 
@@ -130,7 +174,8 @@ const Footer = () => {
               <div className="footer-links">
                 <span className="footer-link">Smart India Hackathon</span>
                 <span className="footer-link">Research &amp; Educational Use</span>
-                <span className="footer-link">Built with React + Vite</span>
+                <span className="footer-link">React · Django · MATLAB</span>
+                <span className="footer-link">5-Level DR Severity Scale</span>
               </div>
             </div>
 
@@ -154,9 +199,9 @@ const Footer = () => {
             </span>
 
             <div className="footer-bottom-links">
-              <a href="#privacy">Privacy</a>
-              <a href="#terms">Terms</a>
-              <a href="#contact">Contact</a>
+              <Link to="/docs">Documentation</Link>
+              <Link to="/docs">Limitations</Link>
+              <Link to="/upload">Start Screening</Link>
             </div>
           </div>
 

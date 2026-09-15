@@ -1,3 +1,4 @@
+
 import {
   ArrowRight,
   BrainCircuit,
@@ -14,9 +15,12 @@ import {
   Sparkle,
 } from "lucide-react";
 import eyeCloseupImage from "../assets/media/eye-closeup.jpg";
+import useReveal from "../hooks/useReveal";
 
 
 const Welcome = ({ onStart }) => {
+  useReveal();
+
   const features = [
     {
       icon: Eye,
@@ -43,11 +47,13 @@ const Welcome = ({ onStart }) => {
 
   const workflow = [
     "Image quality assessment",
-    "Fundus preprocessing",
-    "Retinal anatomy analysis",
-    "Lesion analysis",
-    "DR severity classification",
-    "Explainability and final screening",
+    "Image enhancement",
+    "Retinal structure analysis",
+    "Lesion detection",
+    "Feature extraction",
+    "AI classification",
+    "DR severity grading",
+    "Screening report",
   ];
 
 
@@ -69,8 +75,8 @@ const Welcome = ({ onStart }) => {
     },
     {
       icon: Sparkle,
-      value: "100%",
-      label: "Explainable Output",
+      value: "5",
+      label: "DR Severity Grades",
     },
   ];
 
@@ -102,8 +108,8 @@ const Welcome = ({ onStart }) => {
           <p className="welcome-description">
             Analyze retinal fundus images through a structured
             screening pipeline covering image quality, retinal
-            anatomy, lesion evidence, diabetic retinopathy
-            severity, and explainable AI findings.
+            structures, lesion evidence and diabetic retinopathy
+            severity — ending in a clear, reviewable screening report.
           </p>
 
 
@@ -172,61 +178,58 @@ const Welcome = ({ onStart }) => {
         </section>
 
 
-        <section className="hero-visual">
+        <section className="hero-visual reveal reveal-delay-2">
 
-          <div className="hero-visual-card">
+          <div className="hero-glow" aria-hidden="true" />
 
-            <div className="hero-fundus-placeholder">
 
-              <div className="hero-fundus-circle">
+          <div className="hero-frame">
 
-                <img
-                  className="hero-fundus-video"
-                  src={eyeCloseupImage}
-                  alt="Close-up of a human eye"
-                />
+            <div className="hero-frame-image-wrap">
 
-                <div className="hero-fundus-circle-overlay" />
+              <img
+                className="hero-frame-image"
+                src={eyeCloseupImage}
+                alt="Close-up of a human eye used for retinal screening"
+              />
 
-                <div className="analysis-marker marker-one" />
-                <div className="analysis-marker marker-two" />
-                <div className="analysis-marker marker-three" />
+              <div className="hero-frame-tint" />
 
+              <span className="hero-frame-corner corner-tl" />
+              <span className="hero-frame-corner corner-tr" />
+              <span className="hero-frame-corner corner-bl" />
+              <span className="hero-frame-corner corner-br" />
+
+              <div className="hero-frame-scan" />
+
+              <span className="hero-frame-point point-one" />
+              <span className="hero-frame-point point-two" />
+              <span className="hero-frame-point point-three" />
+
+              <div className="hero-frame-tag tag-quality">
+                <ShieldCheck size={14} />
+                Quality: Good
               </div>
 
-
-              <div className="scan-line" />
+              <div className="hero-frame-tag tag-ai">
+                <BrainCircuit size={14} />
+                AI Analysis
+              </div>
 
             </div>
 
-          </div>
 
+            <div className="hero-frame-status">
 
-          <div className="floating-info-card card-top">
+              <div className="hero-frame-status-left">
+                <span className="hero-live-dot" />
+                Live screening preview
+              </div>
 
-            <div className="floating-info-icon">
-              <ShieldCheck size={16} />
-            </div>
+              <div className="hero-frame-status-right">
+                Severity Grading
+              </div>
 
-            <div>
-              Quality
-              <br />
-              Assessment
-            </div>
-
-          </div>
-
-
-          <div className="floating-info-card card-bottom">
-
-            <div className="floating-info-icon">
-              <BrainCircuit size={16} />
-            </div>
-
-            <div>
-              Explainable
-              <br />
-              AI Analysis
             </div>
 
           </div>
@@ -236,7 +239,7 @@ const Welcome = ({ onStart }) => {
       </div>
 
 
-      <section className="welcome-stats-section">
+      <section className="welcome-stats-section reveal">
 
         <div className="welcome-stats-grid">
 
@@ -271,7 +274,7 @@ const Welcome = ({ onStart }) => {
 
       <section
         id="screening-workflow"
-        className="welcome-workflow-section"
+        className="welcome-workflow-section reveal"
       >
 
         <div className="welcome-workflow-header">
@@ -288,9 +291,9 @@ const Welcome = ({ onStart }) => {
 
 
           <p>
-            The analysis follows a multi-stage workflow designed
-            to keep image quality, retinal findings, model output,
-            and explainability together.
+            Every image runs through the same eight stages, so
+            quality is checked before anything is classified and
+            each result arrives as a structured screening report.
           </p>
 
         </div>
@@ -317,7 +320,7 @@ const Welcome = ({ onStart }) => {
 
 
                 {index < workflow.length - 1 &&
-                  (index + 1) % 3 !== 0 && (
+                  (index + 1) % 4 !== 0 && (
                   <div className="welcome-workflow-arrow">
                     <ArrowRight size={15} />
                   </div>
@@ -335,7 +338,7 @@ const Welcome = ({ onStart }) => {
 
       <section className="welcome-trust-section">
 
-        <div className="welcome-trust-card">
+        <div className="welcome-trust-card reveal">
 
           <div className="welcome-trust-icon">
             <CheckCircle2 size={22} />
@@ -349,9 +352,10 @@ const Welcome = ({ onStart }) => {
             </h3>
 
             <p>
-              The application presents AI-assisted retinal
-              screening outputs in a structured and explainable
-              format for project, research, and educational use.
+              Results are presented as a structured screening
+              report — image quality, detected findings, severity
+              grade and confidence — intended as clinical decision
+              support, not an independent diagnosis.
             </p>
 
           </div>
@@ -378,7 +382,7 @@ const Welcome = ({ onStart }) => {
       </section>
 
 
-      <section className="welcome-cta-section">
+      <section className="welcome-cta-section reveal">
 
         <div className="welcome-cta-card">
 
@@ -412,3 +416,4 @@ const Welcome = ({ onStart }) => {
 
 
 export default Welcome;
+

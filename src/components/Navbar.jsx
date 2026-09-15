@@ -1,21 +1,65 @@
 
 import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
-  HeartPulse,
   Menu,
   X,
   ScanEye,
   Upload,
   FileCheck2,
   House,
+  BookOpen,
   Sun,
   Moon,
+  ArrowRight,
 } from "lucide-react";
+
+
+const NAV_ITEMS = [
+  { to: "/", label: "Home", icon: House, end: true },
+  { to: "/upload", label: "Screen", icon: Upload },
+  { to: "/processing", label: "Analysis", icon: ScanEye },
+  { to: "/result", label: "Results", icon: FileCheck2 },
+  { to: "/docs", label: "Docs", icon: BookOpen },
+];
+
+
+const RetinaMark = () => (
+  <svg
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <circle
+      cx="16"
+      cy="16"
+      r="13"
+      stroke="currentColor"
+      strokeWidth="2"
+      opacity="0.45"
+    />
+    <circle
+      cx="16"
+      cy="16"
+      r="7.5"
+      stroke="currentColor"
+      strokeWidth="2.2"
+    />
+    <circle cx="16" cy="16" r="3" fill="currentColor" />
+    <path
+      d="M16 3v3.5M16 25.5V29M3 16h3.5M25.5 16H29"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") {
@@ -25,7 +69,6 @@ const Navbar = () => {
     return window.localStorage.getItem("dr-screening-theme") || "light";
   });
 
-  const location = useLocation();
   const navigate = useNavigate();
 
 
@@ -35,14 +78,22 @@ const Navbar = () => {
   }, [theme]);
 
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+
   const toggleTheme = () => {
     setTheme((previous) => (previous === "dark" ? "light" : "dark"));
   };
 
 
-  const closeMobileMenu = () => {
-    setMobileOpen(false);
-  };
+  const closeMobileMenu = () => setMobileOpen(false);
 
 
   const handleLogoClick = () => {
@@ -51,14 +102,32 @@ const Navbar = () => {
   };
 
 
-  const getNavClass = ({ isActive }) => {
-    return `navbar-link${isActive ? " active" : ""}`;
+  const renderLink = (item, onClick) => {
+    const Icon = item.icon;
+
+    return (
+      <NavLink
+        key={item.to}
+        to={item.to}
+        end={item.end}
+        onClick={onClick}
+        className={({ isActive }) =>
+          `navbar-link${isActive ? " active" : ""}`
+        }
+      >
+        <span className="navbar-link-icon">
+          <Icon size={16} />
+        </span>
+
+        <span>{item.label}</span>
+      </NavLink>
+    );
   };
 
 
   return (
     <>
-      <header className="navbar">
+      <header className={`navbar${scrolled ? " scrolled" : ""}`}>
 
         <div className="navbar-inner">
 
@@ -69,57 +138,24 @@ const Navbar = () => {
             aria-label="Go to home"
           >
             <span className="navbar-logo">
-              <HeartPulse size={21} strokeWidth={2.2} />
+              <RetinaMark />
             </span>
 
-            <span>DR Screening AI</span>
+            <span className="navbar-brand-text">
+              <span className="navbar-brand-name">
+                DR Screening
+                <span className="navbar-brand-accent">AI</span>
+              </span>
+
+              <span className="navbar-brand-sub">
+                Retinal Intelligence
+              </span>
+            </span>
           </button>
 
 
           <nav className="navbar-links">
-
-            <NavLink
-              to="/"
-              className={getNavClass}
-              end
-            >
-              <House size={16} />
-              <span>Home</span>
-            </NavLink>
-
-
-            <NavLink
-              to="/upload"
-              className={getNavClass}
-            >
-              <Upload size={16} />
-              <span>Screen</span>
-            </NavLink>
-
-
-            <NavLink
-              to="/processing"
-              className={() =>
-                `navbar-link${
-                  location.pathname === "/processing"
-                    ? " active"
-                    : ""
-                }`
-              }
-            >
-              <ScanEye size={16} />
-              <span>Analysis</span>
-            </NavLink>
-
-
-            <NavLink
-              to="/result"
-              className={getNavClass}
-            >
-              <FileCheck2 size={16} />
-              <span>Results</span>
-            </NavLink>
-
+            {NAV_ITEMS.map((item) => renderLink(item))}
           </nav>
 
 
@@ -145,6 +181,19 @@ const Navbar = () => {
 
             <button
               type="button"
+              className="navbar-cta"
+              onClick={() => {
+                closeMobileMenu();
+                navigate("/upload");
+              }}
+            >
+              Start Screening
+              <ArrowRight size={15} />
+            </button>
+
+
+            <button
+              type="button"
               className="mobile-menu-button"
               onClick={() => setMobileOpen((previous) => !previous)}
               aria-label={
@@ -154,11 +203,7 @@ const Navbar = () => {
               }
               aria-expanded={mobileOpen}
             >
-              {mobileOpen ? (
-                <X size={20} />
-              ) : (
-                <Menu size={20} />
-              )}
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
           </div>
@@ -171,51 +216,19 @@ const Navbar = () => {
       {mobileOpen && (
         <div className="navbar-mobile-menu">
 
-          <NavLink
-            to="/"
-            className={getNavClass}
-            end
-            onClick={closeMobileMenu}
+          {NAV_ITEMS.map((item) => renderLink(item, closeMobileMenu))}
+
+          <button
+            type="button"
+            className="btn btn-primary navbar-mobile-cta"
+            onClick={() => {
+              closeMobileMenu();
+              navigate("/upload");
+            }}
           >
-            <House size={16} />
-            <span>Home</span>
-          </NavLink>
-
-
-          <NavLink
-            to="/upload"
-            className={getNavClass}
-            onClick={closeMobileMenu}
-          >
-            <Upload size={16} />
-            <span>Screen</span>
-          </NavLink>
-
-
-          <NavLink
-            to="/processing"
-            className={() =>
-              `navbar-link${
-                location.pathname === "/processing"
-                  ? " active"
-                  : ""
-              }`
-            }
-            onClick={closeMobileMenu}
-          >
-            <ScanEye size={16} />
-            <span>Analysis</span>
-          </NavLink>
-
-
-          <NavLink
-            to="/result"
-            className={getNavClass}
-            onClick={closeMobileMenu}
-          >
-            <FileCheck2 size={16} />
-            <span>Results</span>
-          </NavLink>
+            Start Screening
+            <ArrowRight size={16} />
+          </button>
 
         </div>
       )}
